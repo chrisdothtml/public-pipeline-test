@@ -1,0 +1,16 @@
+steps:
+  - name: ':docker:'
+    plugins:
+      'docker-compose#v3.0.0':
+        build: ci
+        image-repository: 027047743804.dkr.ecr.us-east-2.amazonaws.com/uber
+    agents:
+      queue: builders
+  - wait
+  - name: 'test'
+    command: node test.js
+    plugins:
+      'docker-compose#v3.0.0':
+        run: ci
+    agents:
+      queue: workers
